@@ -141,12 +141,17 @@ def process_dataset(image_dir, annotation_dir, pos_output_dir, neg_output_dir):
         generate_negative_samples(image, gt_boxes, image_basename, neg_output_dir)
 
 if __name__ == '__main__':
-    BASE_DATA_PATH = 'data/AgroPest-12' 
+    # The path to the dataset, one level up from the current project directory.
+    DATA_ROOT_PATH = os.path.join('..', 'data') 
     
-    IMAGE_DIR = os.path.join(BASE_DATA_PATH, 'train', 'images')
-    ANNOTATION_DIR = os.path.join(BASE_DATA_PATH, 'train', 'labels')
-    POS_OUTPUT_DIR = 'data/positives'
-    NEG_OUTPUT_DIR = 'data/negatives'
+    # Paths for reading the raw data.
+    RAW_DATASET_PATH = os.path.join(DATA_ROOT_PATH, 'AgroPest-12')
+    IMAGE_DIR = os.path.join(RAW_DATASET_PATH, 'train', 'images')
+    ANNOTATION_DIR = os.path.join(RAW_DATASET_PATH, 'train', 'labels')
+    
+    # Paths for writing the prepared samples.
+    POS_OUTPUT_DIR = os.path.join(DATA_ROOT_PATH, 'positives')
+    NEG_OUTPUT_DIR = os.path.join(DATA_ROOT_PATH, 'negatives')
     
     print("Starting data preparation...")
     process_dataset(IMAGE_DIR, ANNOTATION_DIR, POS_OUTPUT_DIR, NEG_OUTPUT_DIR)
