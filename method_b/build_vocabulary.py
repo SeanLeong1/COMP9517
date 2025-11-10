@@ -11,7 +11,7 @@ K_CLUSTERS = 500  # Start with k=500 as suggested
 
 # Define the file paths agreed upon by the team
 # This is the file Tom (Task 1.1) should output
-ALL_DESCRIPTORS_PATH = 'data/method_b_features/all_sift_descriptors.npy' 
+ALL_DESCRIPTORS_PATH = 'models/sift_all_train_descriptors.npy'
 
 # This is the file you (Task 1.2) will output
 VOCABULARY_PATH = 'data/method_b_models/bow_vocabulary.pkl'
@@ -26,23 +26,13 @@ os.makedirs(os.path.dirname(ALL_DESCRIPTORS_PATH), exist_ok=True)
 print(f"Loading all SIFT descriptors from {ALL_DESCRIPTORS_PATH}...")
 print("This may take some time depending on the file size...")
 
-# TODO: Wait for Tom's file
-# if not os.path.exists(ALL_DESCRIPTORS_PATH):
-#     print(f"Error: Descriptor file not found at: {ALL_DESCRIPTORS_PATH}")
-#     print("Please run Task 1.1 (feature extraction) first.")
-#     exit()
+if not os.path.exists(ALL_DESCRIPTORS_PATH):
+    print(f"Error: Descriptor file not found at: {ALL_DESCRIPTORS_PATH}")
+    print("Please run Task 1.1 (feature extraction) first.")
+    exit()
 
-# all_descriptors = np.load(ALL_DESCRIPTORS_PATH)
-# print(f"Loaded {all_descriptors.shape[0]} SIFT descriptors, each {all_descriptors.shape[1]}-dimensional.")
-
-# --- (Placeholder for testing) ---
-# You can use this fake data to test your script before Tom is finished
-print("--- Using fake data for testing ---")
-# SIFT descriptors are 128-dimensional
-fake_descriptors = np.random.rand(10000, 128).astype(np.float32) 
-all_descriptors = fake_descriptors
-print(f"Used {all_descriptors.shape[0]} fake SIFT descriptors for testing.")
-# --- (End of test data) ---
+all_descriptors = np.load(ALL_DESCRIPTORS_PATH)
+print(f"Loaded {all_descriptors.shape[0]} SIFT descriptors, each {all_descriptors.shape[1]}-dimensional.")
 
 
 # --- 3. K-Means Clustering (Your Core Task) ---
