@@ -23,7 +23,7 @@ def extract_and_save_sift_features():
     PROJECT_ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     
     # 定义数据和输出路径
-    DATASET_DIR = os.path.join(PROJECT_ROOT_DIR, '..', 'data', 'AgroPest-12') # 指向 E:/comp9517_project/data/AgroPest-12
+    DATASET_DIR = os.path.join(PROJECT_ROOT_DIR, 'data', 'AgroPest-12') # 指向 E:/comp9517_project/data/AgroPest-12
     TRAIN_IMAGE_DIR = os.path.join(DATASET_DIR, 'train', 'images')
     OUTPUT_FILE = os.path.join(PROJECT_ROOT_DIR, 'models', 'sift_all_train_descriptors.npy')
     
