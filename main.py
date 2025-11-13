@@ -6,6 +6,8 @@ import numpy as np
 from utils.data_loader import load_prepared_dataset
 from features.hog_extractor import extract_hog_features
 from models.svm_classifier import train_svm, save_model
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, confusion_matrix
 
 def main():
     """
@@ -48,9 +50,39 @@ def main():
     hog_features = extract_hog_features(subset_images)
     print(f"HOG feature matrix shape: {hog_features.shape}")
 
-    # --- 3. Train SVM Classifier ---
-    print("\n--- Step 3: Training SVM Classifier ---")
-    svm_model = train_svm(hog_features, subset_labels)
+    # --- 3. Train & Evaluate SVM Classifier ---
+    print("\n--- Step 3: Training & Evaluating SVM Classifier ---")
+
+    # Split into train/validation for evaluation
+    X_train, X_val, y_train, y_val = train_test_split(
+        hog_features,
+        subset_labels,
+        test_size=0.2,          # 20% for validation
+        random_state=42,        # for reproducibility
+        stratify=subset_labels  # keep class balance
+    )
+
+    # Train SVM on the training split
+    svm_model = train_svm(X_train, y_train)
+
+    # Predict on the validation split
+    y_pred = svm_model.predict(X_val)
+
+    # --- Extra metrics: classification report + confusion matrix ---
+    print("\nClassification report (Method A - HOG + SVM):")
+    report = classification_report(y_val, y_pred, digits=4)
+    print(report)
+
+    # Save the classification report to a text file (for the report/slides)
+    with open("methodA_report.txt", "w") as f:
+        f.write(report)
+
+    # Compute and print confusion matrix
+    cm = confusion_matrix(y_val, y_pred)
+    print("Confusion matrix:\n", cm)
+
+    # Save confusion matrix as CSV so you can make a table/heatmap later
+    np.savetxt("methodA_confusion_matrix.csv", cm, fmt="%d", delimiter=",")
 
     # --- 4. Save the Trained Model ---
     print("\n--- Step 4: Saving the Trained Model ---")
